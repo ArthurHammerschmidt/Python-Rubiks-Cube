@@ -1,0 +1,12 @@
+This app runs with Python2.7 and only has been tested and running on a Mac so far.
+
+On Windows or Mac , open the command-prompt window or a terminal.
+
+1. Type in the following to get OpenGL for Python:
+> pip install PyOpenGL
+
+2. Type in the following to get the wxPython:
+> pip install -U wxPython
+
+3. To run the app type:
+> python ruibks-cube.py
