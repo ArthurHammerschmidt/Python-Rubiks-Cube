@@ -7,10 +7,15 @@ from lib_rubiks import  *
 from interactionMatrix import InteractionMatrix
 
 import wx.glcanvas as glcanvas
-from OpenGL.GL import *
-from OpenGL.GLUT import *
-from OpenGL.GLU import *
 from math import *
+
+try:
+  from OpenGL.GLUT import *
+  from OpenGL.GL import *
+  from OpenGL.GLU import *
+except:
+  print( ''' Error: PyOpenGL not installed properly !!''')
+  sys.exit(  )
 
 (faceList, bodyList, cubeList)= (1,2,3)
 (turn,angle,axis,tick_obj) = (0,0,0,0)
@@ -33,7 +38,6 @@ class MyCanvas(glcanvas.GLCanvas):
 
         self.Bind(wx.EVT_PAINT, self.OnPaint)
         interactor = InteractionMatrix()
-
 
     def OnPaint(self, event):
         dc = wx.PaintDC(self)
@@ -62,9 +66,9 @@ class MyCanvas(glcanvas.GLCanvas):
         global cubeList
         # cubeList = glGenLists(1)
         # if cubeList == 0:
-        #     print 'error : glGenLists failed'
+        #     print( 'error : glGenLists failed')
         #     quit()
-#        print 'cubeList',cubeList
+#        print( 'cubeList',cubeList)
         glNewList(cubeList,GL_COMPILE)
         glBegin(GL_QUADS)
         for ic in range(8):
@@ -108,7 +112,7 @@ class MyCanvas(glcanvas.GLCanvas):
 # remaining list of corners and edges
 # by removing corner 'num' or edge 'num'
     def remaining_list(self,num, alist):
-        blist = range(num)
+        blist = list(range(num))
         for i in alist:
             blist.remove(i)
         return blist
@@ -119,10 +123,10 @@ class MyCanvas(glcanvas.GLCanvas):
         # faceList = glGenLists(1)
         # bodyList = glGenLists(1)
         # if faceList == 0  or bodyList == 0 :
-        #     print 'error : glGenLists failed'
+        #     print( 'error : glGenLists failed')
         #     quit()
-#        print 'faceList ',faceList
-#        print 'bodyList ',bodyList
+#        print( 'faceList ',faceList)
+#        print( 'bodyList ',bodyList)
 
         glNewList(faceList,GL_COMPILE)
         #corner patches
@@ -248,7 +252,7 @@ class MyCanvas(glcanvas.GLCanvas):
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
         x,y,width,height = glGetDoublev(GL_VIEWPORT)
-#        print 'InitGL ',width,height
+#        print( 'InitGL ',width,height)
         gluPerspective(
             45, # field of view in degrees
             width/float(height or 1), # aspect ratio
@@ -298,7 +302,7 @@ class MyCanvas(glcanvas.GLCanvas):
         self.draw_string(0.8,3.3,0.7,"xz",'U')
         self.draw_string(0.2,0,3.3,"xy",'L')
 
-        #print 'draw tick_obj',tick_obj
+        #print( 'draw tick_obj',tick_obj)
         glLineWidth(8)
         if tick_obj == 0 :
             glMultMatrixf(interactor.getCurrentMatrix()) # apply all cube rotations so far
@@ -487,10 +491,10 @@ class ToolPanel(wx.Panel):
     def on_rotate_face(self, event):
         global cw,facei,axis,tick_obj,angle
         btn = event.GetEventObject().GetLabel()
-#        print "Label of pressed button =",btn
+#        print( "Label of pressed button =",btn)
         if btn[1] == "'": key = btn[0].lower()
         else: key = btn[0]
-#        print key
+#        print( key)
         facei, cw ,axis = rot_parms(key) # using only facei for build
         # get original face index
         tick_obj = 1
@@ -506,10 +510,10 @@ class ToolPanel(wx.Panel):
     def on_rotate_cube(self, event):
         global cw,facei,axis,tick_obj,angle
         btn = event.GetEventObject().GetLabel()
-#        print "Label of pressed button =",btn
+#        print( "Label of pressed button =",btn)
         if btn[1] == "'": key = btn[0].lower()
         else: key = btn[0]
-#        print key
+#        print( key)
         facei, cw ,axis = rot_parms(key) # using only facei for build
         # get original face index
         tick_obj = 2
@@ -534,7 +538,7 @@ class ToolPanel(wx.Panel):
     def on_jumble(self,event):
         global tick_obj
         n = random.randrange(100,1201)
-        print 'random rotations = ',n
+        print( 'random rotations = ',n)
         prvrot = None
         for i in range(n):
             rot = random.choice('FBLRUDfblrud')

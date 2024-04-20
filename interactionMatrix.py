@@ -12,7 +12,7 @@ try:
   from OpenGL.GL import *
   from OpenGL.GLU import *
 except:
-  print ''' Error: PyOpenGL not installed properly !!'''
+  print( ''' Error: PyOpenGL not installed properly !!''')
   sys.exit(  )
 
 class InteractionMatrix (  ):
@@ -59,8 +59,8 @@ if __name__ == '__main__' :
 	glutInit( sys.argv )
 	glutCreateWindow( sys.argv[0] )
 	m=InteractionMatrix()
-	print m.getCurrentMatrix( )
+	print(m.getCurrentMatrix( ))
 	m.addRotation(90,0,0,1)
-	print m.getCurrentMatrix( )
+	print(m.getCurrentMatrix( ))
 	m.addRotation(90,1,0,0)
-	print m.getCurrentMatrix( )
+	print(m.getCurrentMatrix( ))
